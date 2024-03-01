@@ -77,10 +77,23 @@ removeProperties({ a: 1, b: 2, c: 3 }, ['b', 'c']);
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 2}) => true
  *    compareObjects({a: 1, b: 2}, {a: 1, b: 3}) => false
  */
-function compareObjects(/* obj1, obj2 */) {
-  throw new Error('Not implemented');
-}
+function compareObjects(obj1, obj2) {
+  const object1 = Object.entries(obj1);
+  const object2 = Object.entries(obj2);
 
+  if (object1.length !== object2.length) {
+    return false;
+  }
+  for (let i = 0; i < object1.length; i += 1) {
+    // const [key, value] = object1[i];
+    const [key, value] = object1[i];
+    if (obj2[key] !== value) {
+      return false;
+    }
+  }
+  return true;
+}
+compareObjects({ a: 1, b: 2 }, { a: 1, b: 2 });
 /**
  * Checks if the source object is empty.
  * Returns true if the object contains no enumerable own properties, false otherwise.
@@ -92,10 +105,11 @@ function compareObjects(/* obj1, obj2 */) {
  *    isEmptyObject({}) => true
  *    isEmptyObject({a: 1}) => false
  */
-function isEmptyObject(/* obj */) {
-  throw new Error('Not implemented');
+function isEmptyObject(obj) {
+  if (Object.keys(obj).length === 0) return true;
+  return false;
 }
-
+isEmptyObject({});
 /**
  * Makes the source object immutable by preventing any changes to its properties.
  *
