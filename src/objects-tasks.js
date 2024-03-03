@@ -140,10 +140,19 @@ function makeImmutable(/* obj */) {
  *    makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] }) => 'aabbcc'
  *    makeWord({ H:[0], e: [1], l: [2, 3, 8], o: [4, 6], W:[5], r:[7], d:[9]}) => 'HelloWorld'
  */
-function makeWord(/* lettersObject */) {
-  throw new Error('Not implemented');
+function makeWord(lettersObject) {
+  const value = [];
+  const arrLetters = Object.entries(lettersObject);
+  for (let i = 0; i < arrLetters.length; i += 1) {
+    const [key, value1] = arrLetters[i];
+    for (let k = 0; k < value1.length; k += 1) {
+      const index = value1[k];
+      value[index] = key;
+    }
+  }
+  return value.join('');
 }
-
+makeWord({ a: [0, 1], b: [2, 3], c: [4, 5] });
 /**
  * There is a queue for tickets to a popular movie.
  * The ticket seller sells one ticket at a time strictly in order and give the change.
@@ -158,10 +167,23 @@ function makeWord(/* lettersObject */) {
  *    sellTickets([25, 25, 50]) => true
  *    sellTickets([25, 100]) => false (The seller does not have enough money to give change.)
  */
-function sellTickets(/* queue */) {
-  throw new Error('Not implemented');
+function sellTickets(queue) {
+  let sell = 0;
+  for (let i = 0; i < queue.length; i += 1) {
+    if (queue[i] === 25) {
+      sell += queue[i];
+    }
+    if (queue[i] > 25) {
+      const sum = queue[i] - 25;
+      if (sum > sell) {
+        return false;
+      }
+      sell -= sum;
+    }
+  }
+  return true;
 }
-
+sellTickets([25, 100]);
 /**
  * Returns the rectangle object with width and height parameters and getArea() method
  *
