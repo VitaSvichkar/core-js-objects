@@ -205,10 +205,10 @@ function Rectangle(width, height) {
     return this.width * this.height;
   };
 }
-const r = new Rectangle(10, 20);
-console.log(r.width);
-console.log(r.height);
-console.log(r.getArea());
+// const r = new Rectangle(10, 20);
+// console.log(r.width);
+// console.log(r.height);
+// console.log(r.getArea());
 /**
  * Returns the JSON representation of specified object
  *
