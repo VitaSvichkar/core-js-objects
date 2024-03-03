@@ -197,10 +197,18 @@ sellTickets([25, 100]);
  *    console.log(r.height);      // => 20
  *    console.log(r.getArea());   // => 200
  */
-function Rectangle(/* width, height */) {
-  throw new Error('Not implemented');
-}
+function Rectangle(width, height) {
+  this.width = width;
+  this.height = height;
 
+  this.getArea = function () {
+    return this.width * this.height;
+  };
+}
+const r = new Rectangle(10, 20);
+console.log(r.width);
+console.log(r.height);
+console.log(r.getArea());
 /**
  * Returns the JSON representation of specified object
  *
@@ -211,10 +219,11 @@ function Rectangle(/* width, height */) {
  *    [1,2,3]   =>  '[1,2,3]'
  *    { width: 10, height : 20 } => '{"height":10,"width":20}'
  */
-function getJSON(/* obj */) {
-  throw new Error('Not implemented');
+function getJSON(obj) {
+  const strObj = JSON.stringify(obj);
+  return strObj;
 }
-
+getJSON([1, 2, 3]);
 /**
  * Returns the object of specified type from JSON representation
  *
@@ -226,9 +235,13 @@ function getJSON(/* obj */) {
  *    const r = fromJSON(Circle.prototype, '{"radius":10}');
  *
  */
-function fromJSON(/* proto, json */) {
-  throw new Error('Not implemented');
+function fromJSON(proto, json) {
+  const jsonObj = JSON.parse(json);
+  const newObj = Object.create(proto);
+  Object.assign(newObj, jsonObj);
+  return newObj;
 }
+// const r = fromJSON(Circle.prototype, '{"radius":10}');
 
 /**
  * Sorts the specified array by country name first and city name
@@ -256,10 +269,23 @@ function fromJSON(/* proto, json */) {
  *      { country: 'Russia',  city: 'Saint Petersburg' }
  *    ]
  */
-function sortCitiesArray(/* arr */) {
-  throw new Error('Not implemented');
+function sortCitiesArray(arr) {
+  const result = arr.sort((a, b) => {
+    if (a.country !== b.country) {
+      return a.country > b.country ? 1 : -1;
+    }
+    return a.city > b.city ? 1 : -1;
+  });
+  return result;
 }
-
+sortCitiesArray([
+  { country: 'Russia', city: 'Moscow' },
+  { country: 'Belarus', city: 'Minsk' },
+  { country: 'Poland', city: 'Warsaw' },
+  { country: 'Russia', city: 'Saint Petersburg' },
+  { country: 'Poland', city: 'Krakow' },
+  { country: 'Belarus', city: 'Brest' },
+]);
 /**
  * Groups elements of the specified array by key.
  * Returns multimap of keys extracted from array elements via keySelector callback
@@ -290,10 +316,30 @@ function sortCitiesArray(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  const mapObj = new Map();
+  array.forEach((item) => {
+    const key = keySelector(item);
+    const value = valueSelector(item);
+    if (!mapObj.has(key)) {
+      mapObj.set(key, []);
+    }
+    mapObj.get(key).push(value);
+  });
+  return mapObj;
 }
-
+group(
+  [
+    { country: 'Belarus', city: 'Brest' },
+    { country: 'Russia', city: 'Omsk' },
+    { country: 'Russia', city: 'Samara' },
+    { country: 'Belarus', city: 'Grodno' },
+    { country: 'Belarus', city: 'Minsk' },
+    { country: 'Poland', city: 'Lodz' },
+  ],
+  (item) => item.country,
+  (item) => item.city
+);
 /**
  * Css selectors builder
  *
